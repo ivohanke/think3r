@@ -4,10 +4,8 @@ from datasets import load_dataset
 # Potentail dataset to use (for classification of input)
 datasets = load_dataset("dair-ai/emotion")
 
-access_token = "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"
+access_token = "" # Removed
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", token=access_token)
-
-
 
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b", token=access_token)
