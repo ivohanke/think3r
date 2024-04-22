@@ -2,20 +2,15 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingA
 from datasets import load_dataset
 
 # Potentail dataset to use (for classification of input)
-# datasets = load_dataset("dair-ai/emotion")
+datasets = load_dataset("dair-ai/emotion")
 
 access_token = "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"
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", token=access_token)
 
-prompt = "What is your favorite condiment?"
-inputs = tokenizer(prompt, return_tensors="pt")
-
-# Generate
-generate_ids = model.generate(inputs.input_ids, max_length=30)
-tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
 
-""" tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b", token=access_token)
+
+tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b", token=access_token)
 tokenizer.pad_token = tokenizer.eos_token  # Ensure GPT-2 can handle padding
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -29,8 +24,16 @@ def tokenize_function(examples):
     return result
 
 tokenized_datasets = datasets.map(tokenize_function, batched=True, remove_columns=["text"])
+print(tokenized_datasets)
 
-print(tokenized_datasets) """
+prompt = "What is your favorite condiment?"
+inputs = tokenizer(prompt, return_tensors="pt")
+
+# Generate
+generate_ids = model.generate(inputs.input_ids, max_length=30)
+tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+
+
 
 """ # Training and evaluation
 training_args = TrainingArguments(
