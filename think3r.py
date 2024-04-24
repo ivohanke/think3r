@@ -32,8 +32,7 @@ generate_ids = model.generate(inputs.input_ids, max_length=30)
 tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
 
 
-
-""" # Training and evaluation
+ # Training and evaluation
 training_args = TrainingArguments(
     output_dir="./data/gemma-2b",
     evaluation_strategy="epoch",
@@ -51,11 +50,13 @@ trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["test"],  # Use 'test' split as validation
+    eval_dataset=tokenized_datasets["test"], 
     tokenizer=tokenizer,
     data_collator=data_collator,
 )
 
 trainer.train()
+trainer.save_model("./data/model")
+
 eval_results = trainer.evaluate()
-print(eval_results) """
+print(eval_results)
